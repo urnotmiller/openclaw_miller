@@ -1,0 +1,11 @@
+api:
+  host: "0.0.0.0"
+  port: 8080
+model:
+  name: "doubao-seed-code"
+  base_url: "https://api.example.com"
+  api_key: "YOUR_API_KEY"
+tools:
+  web_search:
+    engine: "baidu"
+    api_key: "YOUR_SEARCH_API_KEY"
