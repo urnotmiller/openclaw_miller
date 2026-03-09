@@ -93,6 +93,18 @@ func GetRealTimeQuote(market, code string) (*RealTimeQuote, error) {
 	return api.GetStockQuote(market, code)
 }
 
+// 搜索股票（供智能体调用）
+func SearchStock(keyword string) ([]*StockInfo, error) {
+	searcher := NewStockSearch()
+	return searcher.SearchStock(keyword)
+}
+
+// 根据股票代码获取股票信息（供智能体调用）
+func GetStockInfoByCode(market, code string) (*StockInfo, error) {
+	searcher := NewStockSearch()
+	return searcher.GetStockInfoByCode(market, code)
+}
+
 // 从配置文件中获取Tushare Token
 func getTushareToken() string {
 	// 这里使用简单的配置读取方法，实际项目中可以使用viper等配置库

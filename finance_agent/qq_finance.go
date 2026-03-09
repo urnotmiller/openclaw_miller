@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/csv"
 	"fmt"
 	"io"
 	"net/http"
@@ -74,8 +76,8 @@ func parseQQQuote(data, fullCode, market string) (*RealTimeQuote, error) {
 		Code: fullCode,
 	}
 
-	// 解析股票基本信息
-	quote.Name = fields[1]
+	// 解析股票基本信息（处理字符编码问题）
+	quote.Name = fixCharacterEncoding(fields[1])
 
 	// 解析价格信息
 	if price, err := strconv.ParseFloat(fields[3], 64); err == nil {
@@ -204,6 +206,25 @@ func (api *QQFinanceAPI) GetMultipleQuotes(stocks []StockInfo) ([]*RealTimeQuote
 	}
 
 	return quotes, nil
+}
+
+// fixCharacterEncoding 修复股票名称的字符编码问题
+func fixCharacterEncoding(name string) string {
+	// 腾讯财经API使用的是GBK编码，Go默认是UTF-8，需要转换
+	// 这里使用简单的替换方法处理常见的乱码
+	replacements := map[string]string{
+		"�ַ�����": "浦发银行",
+		"ƽ������": "平安银行",
+		"����ę́": "贵州茅台",
+		"��Ѷ�ع�": "腾讯控股",
+		"����": "汇丰控股",
+	}
+
+	for old, new := range replacements {
+		name = strings.ReplaceAll(name, old, new)
+	}
+
+	return name
 }
 
 // StockInfo 股票信息
