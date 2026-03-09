@@ -9,6 +9,7 @@ import (
 	veagent "github.com/volcengine/veadk-go/agent/llmagent"
 	"github.com/volcengine/veadk-go/common"
 	"github.com/volcengine/veadk-go/tool/builtin_tools/web_search"
+	"gopkg.in/yaml.v3"
 	"google.golang.org/adk/agent"
 	"google.golang.org/adk/agent/llmagent"
 	"google.golang.org/adk/cmd/launcher"
@@ -60,4 +61,60 @@ func main() {
 	if err = l.Execute(ctx, config, os.Args[1:]); err != nil {
 		log.Fatalf("Run failed: %v\n\n%s", err, l.CommandLineSyntax())
 	}
+}
+
+// 获取股票基础信息（供智能体调用）
+func GetStockBasicInfo(isListed bool) ([]*StockBasic, error) {
+	// 从配置中读取Tushare Token
+	token := getTushareToken()
+	if token == "" {
+		return nil, fmt.Errorf("Tushare Token未配置")
+	}
+
+	api := NewTushareAPI(token)
+	return api.StockBasic(isListed)
+}
+
+// 获取每日行情数据（供智能体调用）
+func GetDailyQuotes(startDate, endDate string) ([]*DailyQuote, error) {
+	// 从配置中读取Tushare Token
+	token := getTushareToken()
+	if token == "" {
+		return nil, fmt.Errorf("Tushare Token未配置")
+	}
+
+	api := NewTushareAPI(token)
+	return api.Daily(startDate, endDate)
+}
+
+// 获取实时行情数据（供智能体调用）
+func GetRealTimeQuote(market, code string) (*RealTimeQuote, error) {
+	api := NewSinaFinanceAPI()
+	return api.GetStockQuote(market, code)
+}
+
+// 从配置文件中获取Tushare Token
+func getTushareToken() string {
+	// 这里使用简单的配置读取方法，实际项目中可以使用viper等配置库
+	const configFile = "./config.yaml"
+
+	data, err := os.ReadFile(configFile)
+	if err != nil {
+		return ""
+	}
+
+	var config struct {
+		Tools struct {
+			Tushare struct {
+				Token string `yaml:"token"`
+			} `yaml:"tushare"`
+		} `yaml:"tools"`
+	}
+
+	err = yaml.Unmarshal(data, &config)
+	if err != nil {
+		return ""
+	}
+
+	return config.Tools.Tushare.Token
 }

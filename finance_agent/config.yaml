@@ -9,3 +9,9 @@ tools:
   web_search:
     engine: "baidu"
     api_key: "YOUR_SEARCH_API_KEY"
+  tushare:
+    token: "YOUR_TUSHARE_TOKEN"  # 需要在Tushare官网注册获取
+  stock_api:
+    sina: "https://finance.sina.com.cn"
+    tencent: "https://stock.gtimg.cn"
+    eastmoney: "https://push2.eastmoney.com"
