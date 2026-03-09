@@ -89,7 +89,7 @@ func GetDailyQuotes(startDate, endDate string) ([]*DailyQuote, error) {
 
 // 获取实时行情数据（供智能体调用）
 func GetRealTimeQuote(market, code string) (*RealTimeQuote, error) {
-	api := NewSinaFinanceAPI()
+	api := NewQQFinanceAPI()
 	return api.GetStockQuote(market, code)
 }
 

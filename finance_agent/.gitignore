@@ -11,6 +11,10 @@
 
 # 测试二进制文件
 *.test
+sina_finance_test
+test_sina
+test_tencent
+qq_finance_test
 
 # 临时文件
 *.swp
