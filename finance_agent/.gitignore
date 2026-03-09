@@ -15,6 +15,7 @@ sina_finance_test
 test_sina
 test_tencent
 qq_finance_test
+test_qq_api
 
 # 临时文件
 *.swp

@@ -105,6 +105,24 @@ func GetStockInfoByCode(market, code string) (*StockInfo, error) {
 	return searcher.GetStockInfoByCode(market, code)
 }
 
+// 获取股票推荐（供智能体调用）
+func GetStockRecommendations(data []*StockDailyData) (*RecommendationResult, error) {
+	rec := NewStockRecommendation()
+	return rec.GetStockRecommendations(data)
+}
+
+// 获取买入推荐（供智能体调用）
+func GetBuyRecommendations(data []*StockDailyData) ([]*StockRecommendationResult, error) {
+	rec := NewStockRecommendation()
+	return rec.RecommendBuyStocks(data)
+}
+
+// 获取卖出推荐（供智能体调用）
+func GetSellRecommendations(data []*StockDailyData) ([]*StockRecommendationResult, error) {
+	rec := NewStockRecommendation()
+	return rec.RecommendSellStocks(data)
+}
+
 // 从配置文件中获取Tushare Token
 func getTushareToken() string {
 	// 这里使用简单的配置读取方法，实际项目中可以使用viper等配置库
