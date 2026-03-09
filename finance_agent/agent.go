@@ -87,6 +87,18 @@ func GetDailyQuotes(startDate, endDate string) ([]*DailyQuote, error) {
 	return api.Daily(startDate, endDate)
 }
 
+// 获取股票每日数据（包含技术指标）（供智能体调用）
+func GetStockDailyData(startDate, endDate string) ([]*StockDailyData, error) {
+	// 从配置中读取Tushare Token
+	token := getTushareToken()
+	if token == "" {
+		return nil, fmt.Errorf("Tushare Token未配置")
+	}
+
+	api := NewTushareAPI(token)
+	return api.GetStockDailyData(startDate, endDate)
+}
+
 // 获取实时行情数据（供智能体调用）
 func GetRealTimeQuote(market, code string) (*RealTimeQuote, error) {
 	api := NewQQFinanceAPI()

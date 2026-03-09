@@ -10,7 +10,7 @@ tools:
     engine: "baidu"
     api_key: "YOUR_SEARCH_API_KEY"
   tushare:
-    token: "YOUR_TUSHARE_TOKEN"  # 需要在Tushare官网注册获取
+    token: "eee505dc939712a8cd0dfd3a7eb0271ca620b7824566b1ca8a3d6f4b"  # 需要在Tushare官网注册获取
   stock_api:
     qq: "https://qt.gtimg.cn"
     tencent: "https://stock.gtimg.cn"
