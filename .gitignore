@@ -1,0 +1,46 @@
+# 通用忽略模式
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 日志和临时文件
+*.log
+*.tmp
+temp/
+cache/
+
+# 依赖和编译文件
+node_modules/
+vendor/
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# 测试文件
+*.test
+*.spec
+coverage/
+.nyc_output/
+
+# 配置文件
+.env
+.env.local
+.env.*.local
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 操作系统临时文件
+*.tmp
+*.temp
+
+# 记忆和会话文件
+memory/*.md
+logs/*.txt
