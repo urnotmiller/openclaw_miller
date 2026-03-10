@@ -1,15 +1,150 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
 )
+
+func main() {
+	fmt.Println("=== Tushare数据获取测试 ===\n")
+
+	// 测试参数
+	startDate := time.Now().AddDate(0, 0, -30).Format("20060102")
+	endDate := time.Now().Format("20060102")
+
+	fmt.Printf("测试时间范围：%s 到 %s\n\n", startDate, endDate)
+
+	// 直接使用TushareAPI实例
+	token := "eee505dc939712a8cd0dfd3a7eb0271ca620b7824566b1ca8a3d6f4b"
+	api := NewTushareAPI(token)
+
+	// 测试GetStockDailyData方法
+	fmt.Println("1. 测试GetStockDailyData方法")
+	fmt.Println(strings.Repeat("-", 50))
+
+	dailyData, err := api.GetStockDailyData(startDate, endDate)
+	if err != nil {
+		fmt.Printf("❌ 失败: %v\n", err)
+		return
+	}
+
+	fmt.Printf("✅ 成功: 获取到 %d 条每日数据\n", len(dailyData))
+
+	// 统计不同市场的股票数量
+	marketCount := make(map[string]int)
+	for _, data := range dailyData {
+		marketCount[data.Market]++
+	}
+
+	fmt.Println("\n2. 市场分布统计")
+	fmt.Println(strings.Repeat("-", 50))
+	for market, count := range marketCount {
+		fmt.Printf("   %s: %d 只股票\n", market, count)
+	}
+
+	// 检查是否有指标数据
+	fmt.Println("\n3. 技术指标计算检查")
+	fmt.Println(strings.Repeat("-", 50))
+
+	// 统计有MA20数据的股票数量
+	ma20Count := 0
+	for _, data := range dailyData {
+		if data.MA20 > 0 {
+			ma20Count++
+		}
+	}
+	fmt.Printf("   MA20指标：%d 条数据\n", ma20Count)
+
+	// 统计有MACD数据的股票数量
+	macdCount := 0
+	for _, data := range dailyData {
+		if data.MACD != 0 {
+			macdCount++
+		}
+	}
+	fmt.Printf("   MACD指标：%d 条数据\n", macdCount)
+
+	// 统计有RSI数据的股票数量
+	rsiCount := 0
+	for _, data := range dailyData {
+		if data.RSI != 0 {
+			rsiCount++
+		}
+	}
+	fmt.Printf("   RSI指标：%d 条数据\n", rsiCount)
+
+	// 打印前5条数据的详细信息
+	fmt.Println("\n4. 前5条数据示例")
+	fmt.Println(strings.Repeat("-", 50))
+
+	for i, data := range dailyData[:5] {
+		fmt.Printf("   序号：%d\n", i+1)
+		fmt.Printf("   代码：%s\n", data.Code)
+		fmt.Printf("   名称：%s\n", data.Name)
+		fmt.Printf("   市场：%s\n", data.Market)
+		fmt.Printf("   日期：%s\n", data.Date.Format("2006-01-02"))
+		fmt.Printf("   收盘价：%.2f\n", data.Close)
+		fmt.Printf("   成交量：%.0f手\n", data.Volume)
+		fmt.Printf("   平均成交量：%.0f手\n", data.AvgVolume)
+		fmt.Printf("   MA20：%.2f\n", data.MA20)
+		fmt.Printf("   MACD：%.4f\n", data.MACD)
+		fmt.Printf("   DEA：%.4f\n", data.DEA)
+		fmt.Printf("   RSI：%.2f\n", data.RSI)
+		fmt.Println()
+	}
+
+	// 测试数据完整性
+	fmt.Println("5. 数据完整性检查")
+	fmt.Println(strings.Repeat("-", 50))
+
+	var hasEmptyName, hasZeroClose, hasZeroVolume bool
+
+	for _, data := range dailyData {
+		if data.Name == "" {
+			hasEmptyName = true
+		}
+
+		if data.Close == 0 {
+			hasZeroClose = true
+		}
+
+		if data.Volume == 0 {
+			hasZeroVolume = true
+		}
+	}
+
+	if hasEmptyName {
+		fmt.Printf("❌ 有股票名称为空\n")
+	} else {
+		fmt.Printf("✅ 所有股票名称正常\n")
+	}
+
+	if hasZeroClose {
+		fmt.Printf("❌ 有股票收盘价为0\n")
+	} else {
+		fmt.Printf("✅ 所有股票收盘价正常\n")
+	}
+
+	if hasZeroVolume {
+		fmt.Printf("❌ 有股票成交量为0\n")
+	} else {
+		fmt.Printf("✅ 所有股票成交量正常\n")
+	}
+
+	fmt.Println("\n=== 测试完成 ===\n")
+
+	// 建议下一步操作
+	fmt.Println("建议：")
+	fmt.Println("1. 如果数据获取正常，可以继续进行股票推荐功能的开发")
+	fmt.Println("2. 如果有问题，可以检查网络连接或Tushare Token是否正确")
+	fmt.Println("3. 可以尝试调整时间范围以获取更多数据")
+}
 
 // TushareAPI Tushare API配置
 type TushareAPI struct {
@@ -23,28 +158,19 @@ func NewTushareAPI(token string) *TushareAPI {
 	}
 }
 
-// StockBasic 获取股票基础信息（使用API接口）
+// StockBasic 获取股票基础信息
 func (api *TushareAPI) StockBasic(isListed bool) ([]*StockBasic, error) {
-	reqData := map[string]interface{}{
-		"api_name": "stock_basic",
-		"token":    api.Token,
-		"params": map[string]string{
-			"list_status": func() string {
-				if isListed {
-					return "L"
-				}
-				return "D"
-			}(),
-		},
-		"fields": "ts_code,name,industry,market",
-	}
+	params := url.Values{}
+	params.Set("api_name", "stock_basic")
+	params.Set("token", api.Token)
+	params.Set("list_status", func() string {
+		if isListed {
+			return "L"
+		}
+		return "D"
+	}())
 
-	reqBody, err := json.Marshal(reqData)
-	if err != nil {
-		return nil, err
-	}
-
-	resp, err := http.Post("https://api.tushare.pro", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Get("https://api.tushare.pro?" + params.Encode())
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +186,7 @@ func (api *TushareAPI) StockBasic(isListed bool) ([]*StockBasic, error) {
 		Message string `json:"msg"`
 		Data    struct {
 			Fields []string          `json:"fields"`
-			Items  [][]interface{}   `json:"data"`
+			Items  [][]interface{}   `json:"items"`
 		} `json:"data"`
 	}
 
@@ -70,15 +196,6 @@ func (api *TushareAPI) StockBasic(isListed bool) ([]*StockBasic, error) {
 	}
 
 	if result.Code != 0 {
-		// 如果没有接口访问权限，返回一个默认的股票基础信息列表
-		if strings.Contains(result.Message, "没有接口访问权限") {
-			fmt.Println("⚠️  没有Tushare stock_basic接口访问权限，使用备用股票基础信息")
-			return []*StockBasic{
-				{TSCode: "600000.SH", Name: "浦发银行", Industry: "银行", ListDate: "19990923", Market: "A股"},
-				{TSCode: "000001.SZ", Name: "平安银行", Industry: "银行", ListDate: "19910403", Market: "A股"},
-				{TSCode: "600519.SH", Name: "贵州茅台", Industry: "酿酒", ListDate: "20010827", Market: "A股"},
-			}, nil
-		}
 		return nil, fmt.Errorf("Tushare API error: %s", result.Message)
 	}
 
@@ -97,24 +214,15 @@ func (api *TushareAPI) StockBasic(isListed bool) ([]*StockBasic, error) {
 	return stocks, nil
 }
 
-// Daily 获取每日行情数据（使用API接口）
+// Daily 获取每日行情数据
 func (api *TushareAPI) Daily(startDate, endDate string) ([]*DailyQuote, error) {
-	reqData := map[string]interface{}{
-		"api_name": "daily",
-		"token":    api.Token,
-		"params": map[string]string{
-			"start_date": startDate,
-			"end_date":   endDate,
-		},
-		"fields": "ts_code,trade_date,open,high,low,close,vol,amount",
-	}
+	params := url.Values{}
+	params.Set("api_name", "daily")
+	params.Set("token", api.Token)
+	params.Set("start_date", startDate)
+	params.Set("end_date", endDate)
 
-	reqBody, err := json.Marshal(reqData)
-	if err != nil {
-		return nil, err
-	}
-
-	resp, err := http.Post("https://api.tushare.pro", "application/json", bytes.NewBuffer(reqBody))
+	resp, err := http.Get("https://api.tushare.pro?" + params.Encode())
 	if err != nil {
 		return nil, err
 	}
@@ -140,18 +248,13 @@ func (api *TushareAPI) Daily(startDate, endDate string) ([]*DailyQuote, error) {
 	}
 
 	if result.Code != 0 {
-		// 如果没有接口访问权限，使用备用数据方案
-		if strings.Contains(result.Message, "没有接口访问权限") {
-			fmt.Println("⚠️  没有Tushare daily接口访问权限，使用备用每日行情数据")
-			return generateMockDailyData(startDate, endDate), nil
-		}
 		return nil, fmt.Errorf("Tushare API error: %s", result.Message)
 	}
 
 	var quotes []*DailyQuote
 	for _, item := range result.Data.Items {
-		vol, _ := strconv.ParseFloat(item[6].(string), 64)
-		amount, _ := strconv.ParseFloat(item[7].(string), 64)
+		vol, _ := strconv.ParseFloat(item[5].(string), 64)
+		amount, _ := strconv.ParseFloat(item[6].(string), 64)
 
 		quote := &DailyQuote{
 			TSCode:     item[0].(string),
@@ -169,32 +272,19 @@ func (api *TushareAPI) Daily(startDate, endDate string) ([]*DailyQuote, error) {
 	return quotes, nil
 }
 
-// GetStockDailyData 获取包含指标的股票每日数据（使用API接口）
+// GetStockDailyData 获取包含指标的股票每日数据
 func (api *TushareAPI) GetStockDailyData(startDate, endDate string) ([]*StockDailyData, error) {
-	fmt.Println("正在获取Tushare每日数据...")
-
-	// 1. 获取每日行情数据（日线数据）
-	fmt.Println("Step 1: 获取每日行情数据")
+	// 1. 获取每日行情数据
 	dailyData, err := api.Daily(startDate, endDate)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("成功获取 %d 条每日行情数据\n", len(dailyData))
 
-	// 2. 获取股票基础信息（备用方案）
-	var stockBasic []*StockBasic
-	stockBasic, err = api.StockBasic(true)
+	// 2. 获取股票基础信息
+	stockBasic, err := api.StockBasic(true)
 	if err != nil {
-		fmt.Printf("获取股票基础信息失败: %v\n", err)
-		// 使用备用股票基础信息
-		stockBasic = []*StockBasic{
-			{TSCode: "600000.SH", Name: "浦发银行", Industry: "银行", ListDate: "19990923", Market: "A股"},
-			{TSCode: "000001.SZ", Name: "平安银行", Industry: "银行", ListDate: "19910403", Market: "A股"},
-			{TSCode: "600519.SH", Name: "贵州茅台", Industry: "酿酒", ListDate: "20010827", Market: "A股"},
-		}
+		return nil, err
 	}
-
-	fmt.Printf("成功获取 %d 只股票基础信息\n", len(stockBasic))
 
 	// 3. 创建股票代码到名称和市场的映射
 	stockMap := make(map[string]*StockBasic)
@@ -209,14 +299,6 @@ func (api *TushareAPI) GetStockDailyData(startDate, endDate string) ([]*StockDai
 		var stockInfo *StockBasic
 		if info, ok := stockMap[quote.TSCode]; ok {
 			stockInfo = info
-		} else {
-			// 如果找不到股票信息，创建一个默认的
-			stockInfo = &StockBasic{
-				TSCode:     quote.TSCode,
-				Name:       "未知股票",
-				Industry:   "未知",
-				Market:     "A股",
-			}
 		}
 
 		// 转换时间格式
@@ -228,8 +310,8 @@ func (api *TushareAPI) GetStockDailyData(startDate, endDate string) ([]*StockDai
 		// 创建股票每日数据
 		stockData := &StockDailyData{
 			Code:       getStockCode(quote.TSCode),
-			Name:       stockInfo.Name,
-			Market:     stockInfo.Market,
+			Name:       func() string { if stockInfo != nil { return stockInfo.Name } else { return "" } }(),
+			Market:     func() string { if stockInfo != nil { return stockInfo.Market } else { return "A股" } }(),
 			Date:       date,
 			Close:      quote.Close,
 			Open:       quote.Open,
@@ -260,65 +342,9 @@ func (api *TushareAPI) GetStockDailyData(startDate, endDate string) ([]*StockDai
 	}
 
 	// 6. 计算技术指标
-	fmt.Println("Step 2: 计算技术指标")
 	data = calculateTechnicalIndicators(data)
-	fmt.Println("技术指标计算完成")
 
-	fmt.Printf("最终数据条数: %d\n", len(data))
 	return data, nil
-}
-
-// generateMockDailyData 生成模拟的每日行情数据
-func generateMockDailyData(startDate, endDate string) []*DailyQuote {
-	var dailyData []*DailyQuote
-
-	// 模拟几只股票的每日行情数据
-	stocks := []string{"600000.SH", "000001.SZ", "600519.SH"}
-
-	// 解析日期
-	start, err1 := time.Parse("20060102", startDate)
-	end, err2 := time.Parse("20060102", endDate)
-
-	if err1 != nil || err2 != nil {
-		fmt.Println("解析日期失败，使用默认日期范围")
-		start, _ = time.Parse("20060102", "20240101")
-		end, _ = time.Parse("20060102", "20240110")
-	}
-
-	// 生成每日数据
-	for _, stockCode := range stocks {
-		for d := start; d.Before(end); d = d.AddDate(0, 0, 1) {
-			// 随机价格（根据股票代码调整价格范围）
-			var basePrice float64
-			if stockCode == "600519.SH" {
-				basePrice = 1800 // 贵州茅台价格较高
-			} else if stockCode == "600000.SH" {
-				basePrice = 9 // 浦发银行价格较低
-			} else {
-				basePrice = 12 // 平安银行价格适中
-			}
-
-			// 随机波动
-			openPrice := basePrice + (rand.Float64()-0.5)*2
-			closePrice := openPrice + (rand.Float64()-0.5)*1
-			highPrice := max(openPrice, closePrice) + rand.Float64()*0.5
-			lowPrice := min(openPrice, closePrice) - rand.Float64()*0.5
-			volume := 100000 + rand.Int63n(10000000) // 成交量
-
-			dailyData = append(dailyData, &DailyQuote{
-				TSCode:     stockCode,
-				TradeDate:  d.Format("20060102"),
-				Open:       openPrice,
-				High:       highPrice,
-				Low:        lowPrice,
-				Close:      closePrice,
-				Volume:     float64(volume),
-				Amount:     closePrice * float64(volume), // 成交额
-			})
-		}
-	}
-
-	return dailyData
 }
 
 // calculateTechnicalIndicators 计算技术指标
@@ -437,8 +463,7 @@ func calculateRSI(data []*StockDailyData, period ...int) []float64 {
 	}
 
 	var rsi []float64
-	var gains []float64
-	var losses []float64
+	var gains, losses []float64
 
 	// 计算价格变化
 	for i := 1; i < len(data); i++ {
@@ -456,10 +481,8 @@ func calculateRSI(data []*StockDailyData, period ...int) []float64 {
 	}
 
 	// 计算平均增益和平均损失
-	var avgGain []float64
-	var avgLoss []float64
-	var sumGain float64
-	var sumLoss float64
+	var avgGain, avgLoss []float64
+	var sumGain, sumLoss float64
 
 	// 初始平均
 	for i := 0; i < rsiPeriod; i++ {

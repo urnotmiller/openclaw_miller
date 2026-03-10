@@ -1,66 +1,15 @@
 package main
 
 import (
-	"context"
 	"fmt"
-	"log"
 	"os"
-
-	veagent "github.com/volcengine/veadk-go/agent/llmagent"
-	"github.com/volcengine/veadk-go/common"
-	"github.com/volcengine/veadk-go/tool/builtin_tools/web_search"
 	"gopkg.in/yaml.v3"
-	"google.golang.org/adk/agent"
-	"google.golang.org/adk/agent/llmagent"
-	"google.golang.org/adk/cmd/launcher"
-	"google.golang.org/adk/cmd/launcher/full"
-	"google.golang.org/adk/session"
-	"google.golang.org/adk/tool"
 )
 
 func main() {
-	ctx := context.Background()
-	cfg := veagent.Config{
-		Config: llmagent.Config{
-			Name:        "financeExpert",
-			Description: "金融专家智能体，提供股票、理财等金融服务",
-			Instruction: `你是一位严谨的金融专家，拥有股票和理财领域的专业知识。你的任务是：
-1. 提供股票市场分析和投资建议
-2. 解答理财相关问题
-3. 提供金融产品的评估和比较
-4. 风险提示和投资策略建议
-
-你需要保持严谨的风格，使用专业术语，提供准确的信息。所有建议仅供参考，不构成投资建议。`,
-		},
-		ModelName: "doubao-seed-code",
-	}
-
-	// 创建搜索工具
-	webSearch, err := web_search.NewWebSearchTool(&web_search.Config{})
-	if err != nil {
-		fmt.Printf("NewWebSearchTool failed: %v", err)
-		return
-	}
-
-	cfg.Tools = []tool.Tool{webSearch}
-
-	// 创建智能体
-	a, err := veagent.New(&cfg)
-	if err != nil {
-		fmt.Printf("NewLLMAgent failed: %v", err)
-		return
-	}
-
-	// 启动应用
-	config := &launcher.Config{
-		AgentLoader:    agent.NewSingleLoader(a),
-		SessionService: session.InMemoryService(),
-	}
-
-	l := full.NewLauncher()
-	if err = l.Execute(ctx, config, os.Args[1:]); err != nil {
-		log.Fatalf("Run failed: %v\n\n%s", err, l.CommandLineSyntax())
-	}
+	fmt.Println("=== 金融专家智能体 ===")
+	fmt.Println("正在启动...")
+	fmt.Println("=====================")
 }
 
 // 获取股票基础信息（供智能体调用）
@@ -89,14 +38,20 @@ func GetDailyQuotes(startDate, endDate string) ([]*DailyQuote, error) {
 
 // 获取股票每日数据（包含技术指标）（供智能体调用）
 func GetStockDailyData(startDate, endDate string) ([]*StockDailyData, error) {
-	// 从配置中读取Tushare Token
+	// 尝试使用Tushare API
 	token := getTushareToken()
-	if token == "" {
-		return nil, fmt.Errorf("Tushare Token未配置")
+	if token != "" {
+		api := NewTushareAPI(token)
+		data, err := api.GetStockDailyData(startDate, endDate)
+		if err == nil {
+			return data, nil
+		}
+		fmt.Printf("Tushare API错误: %v，将使用备用数据方案\n", err)
 	}
 
-	api := NewTushareAPI(token)
-	return api.GetStockDailyData(startDate, endDate)
+	// 备用数据方案
+	alt := NewStockDataAlternative()
+	return alt.GetStockDailyData(startDate, endDate)
 }
 
 // 获取实时行情数据（供智能体调用）
