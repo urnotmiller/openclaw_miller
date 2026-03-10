@@ -1,0 +1,36 @@
+{
+  "name": "Multi-Bot Communication",
+  "version": "1.0.0",
+  "description": "多机器人通信技能，支持主机器人与子机器人的通信和问题分发",
+  "author": "OpenClaw",
+  "requirements": [
+    "requests",
+    "uuid",
+    "json",
+    "time",
+    "logging",
+    "typing"
+  ],
+  "entry_point": "multi_bot_communication.communication",
+  "main_function": "process_message",
+  "commands": {
+    "help": {
+      "description": "获取多机器人通信技能的帮助",
+      "handler": "generate_help_message"
+    },
+    "health": {
+      "description": "健康检查功能",
+      "handler": "generate_health_check_response"
+    }
+  },
+  "keywords": [
+    "多机器人通信",
+    "子机器人",
+    "问题分发",
+    "健康检查",
+    "代码专家",
+    "理财专家",
+    "机器人协调",
+    "API通信"
+  ]
+}
