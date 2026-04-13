@@ -1,7 +1,7 @@
 {
   "agent:main:main": {
     "sessionId": "fadfcbbd-04cf-4d7b-aeb5-2399724a051f",
-    "updatedAt": 1776055127608,
+    "updatedAt": 1776080222904,
     "systemSent": true,
     "abortedLastRun": false,
     "authProfileOverride": "minimax:cn",
@@ -432,12 +432,12 @@
       "version": 0
     },
     "status": "done",
-    "startedAt": 1776055100618,
+    "startedAt": 1776080214828,
     "modelProvider": "minimax",
     "model": "MiniMax-M2.7",
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776055100579,
+      "generatedAt": 1776080214776,
       "sessionId": "fadfcbbd-04cf-4d7b-aeb5-2399724a051f",
       "sessionKey": "agent:main:main",
       "provider": "minimax",
@@ -457,25 +457,25 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 37891,
-        "projectContextChars": 10189,
-        "nonProjectContextChars": 27702
+        "chars": 38806,
+        "projectContextChars": 11072,
+        "nonProjectContextChars": 27734
       },
       "injectedWorkspaceFiles": [
         {
           "name": "AGENTS.md",
           "path": "C:\\Users\\mille\\.openclaw\\workspace\\AGENTS.md",
           "missing": false,
-          "rawChars": 5236,
-          "injectedChars": 5236,
+          "rawChars": 5530,
+          "injectedChars": 5530,
           "truncated": false
         },
         {
           "name": "SOUL.md",
           "path": "C:\\Users\\mille\\.openclaw\\workspace\\SOUL.md",
           "missing": false,
-          "rawChars": 1001,
-          "injectedChars": 1001,
+          "rawChars": 1028,
+          "injectedChars": 1028,
           "truncated": false
         },
         {
@@ -522,8 +522,8 @@
           "name": "MEMORY.md",
           "path": "C:\\Users\\mille\\.openclaw\\workspace\\MEMORY.md",
           "missing": false,
-          "rawChars": 1515,
-          "injectedChars": 1515,
+          "rawChars": 2077,
+          "injectedChars": 2077,
           "truncated": false
         }
       ],
@@ -947,19 +947,19 @@
     },
     "totalTokensFresh": true,
     "contextTokens": 204800,
-    "inputTokens": 72283,
-    "outputTokens": 675,
-    "cacheRead": 32698,
+    "inputTokens": 58484,
+    "outputTokens": 88,
+    "cacheRead": 58496,
     "cacheWrite": 0,
-    "estimatedCostUsd": 0.8239833,
+    "estimatedCostUsd": 0.9399782400000001,
     "lastTo": "heartbeat",
-    "totalTokens": 51026,
-    "endedAt": 1776055127458,
-    "runtimeMs": 26840
+    "totalTokens": 58631,
+    "endedAt": 1776080222668,
+    "runtimeMs": 7840
   },
   "agent:main:feishu:direct:ou_bcbcc68a7beb835841ae77a2065b3f8a": {
     "sessionId": "2b3053cd-3095-42cc-af60-7e01146a18d8",
-    "updatedAt": 1776055247960,
+    "updatedAt": 1776081286979,
     "systemSent": true,
     "abortedLastRun": false,
     "authProfileOverride": "minimax:cn",
@@ -1412,13 +1412,13 @@
       "version": 0
     },
     "status": "running",
-    "startedAt": 1776055247835,
+    "startedAt": 1776081286756,
     "modelProvider": "minimax",
     "model": "MiniMax-M2.7",
     "contextTokens": 204800,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776054786122,
+      "generatedAt": 1776081122085,
       "sessionId": "2b3053cd-3095-42cc-af60-7e01146a18d8",
       "sessionKey": "agent:main:feishu:direct:ou_bcbcc68a7beb835841ae77a2065b3f8a",
       "provider": "minimax",
@@ -1438,25 +1438,25 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 38840,
-        "projectContextChars": 10217,
-        "nonProjectContextChars": 28623
+        "chars": 39727,
+        "projectContextChars": 11072,
+        "nonProjectContextChars": 28655
       },
       "injectedWorkspaceFiles": [
         {
           "name": "AGENTS.md",
           "path": "C:\\Users\\mille\\.openclaw\\workspace\\AGENTS.md",
           "missing": false,
-          "rawChars": 5236,
-          "injectedChars": 5236,
+          "rawChars": 5530,
+          "injectedChars": 5530,
           "truncated": false
         },
         {
           "name": "SOUL.md",
           "path": "C:\\Users\\mille\\.openclaw\\workspace\\SOUL.md",
           "missing": false,
-          "rawChars": 1029,
-          "injectedChars": 1029,
+          "rawChars": 1028,
+          "injectedChars": 1028,
           "truncated": false
         },
         {
@@ -1503,8 +1503,8 @@
           "name": "MEMORY.md",
           "path": "C:\\Users\\mille\\.openclaw\\workspace\\MEMORY.md",
           "missing": false,
-          "rawChars": 1515,
-          "injectedChars": 1515,
+          "rawChars": 2077,
+          "injectedChars": 2077,
           "truncated": false
         }
       ],
@@ -1936,12 +1936,12 @@
         ]
       }
     },
-    "inputTokens": 86361,
-    "outputTokens": 1120,
-    "cacheRead": 34176,
+    "inputTokens": 355,
+    "outputTokens": 79,
+    "cacheRead": 95616,
     "cacheWrite": 0,
-    "estimatedCostUsd": 2.344365585,
-    "totalTokens": 120423,
+    "estimatedCostUsd": 3.7275562050000004,
+    "totalTokens": 95971,
     "totalTokensFresh": true,
     "channel": "feishu"
   },
