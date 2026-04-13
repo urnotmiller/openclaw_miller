@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>森系天气</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Loading Skeleton -->
+  <div id="loading-screen" class="loading-screen" aria-hidden="true">
+    <div class="loading-content">
+      <div class="loading-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <path class="leaf-spin" d="M24 4C13 4 6 14 6 24s7 20 18 20c3 0 5-2 5-5 0-2-1-3-2-4-2-1-3-3-3-5 0-3 2-5 5-5 11 0 20-9 20-20S35 4 24 4z" fill="#8DB48E"/>
+          <path d="M24 14c-6 0-10 5-10 10h4c0-3 3-6 6-6V14z" fill="#5C8A5C"/>
+        </svg>
+      </div>
+      <p class="loading-text">正在获取天气信息…</p>
+    </div>
+  </div>
+
+  <!-- App Shell -->
+  <div id="app" class="app-container">
+
+    <!-- Header -->
+    <header class="app-header" id="app-header">
+      <button class="header-location" id="location-btn" aria-label="选择城市">
+        <span class="location-icon">📍</span>
+        <span class="location-name" id="city-name">北京</span>
+        <span class="dropdown-arrow" id="dropdown-arrow">▼</span>
+      </button>
+      <div class="header-actions">
+        <button class="icon-btn" id="settings-btn" aria-label="设置">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#636E72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+        <button class="icon-btn avatar-btn" aria-label="用户">
+          <div class="avatar">🌿</div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+
+      <!-- Hero Weather Card -->
+      <section class="hero-card" id="hero-card">
+        <div class="hero-weather-animation" id="hero-animation">
+          <div class="weather-animation sunny" id="weather-anim-container">
+            <div class="sun"></div>
+            <div class="sun-rays"></div>
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+          </div>
+        </div>
+        <div class="hero-details" id="hero-details">
+          <div class="temp-display">
+            <span class="temp-number" id="temp-number">25</span>
+            <span class="temp-unit">°</span>
+          </div>
+          <div class="weather-desc" id="weather-desc">晴</div>
+          <div class="weather-meta">
+            <span class="meta-item"><span class="meta-icon">🌡️</span><span id="feels-like">体感 27°</span></span>
+            <span class="meta-item"><span class="meta-icon">💧</span><span id="humidity">湿度 65%</span></span>
+            <span class="meta-item"><span class="meta-icon">💨</span><span id="wind-speed">风速 3级</span></span>
+          </div>
+          <div class="update-time" id="update-time">更新时间: 16:30</div>
+        </div>
+        <div class="hero-date">
+          <span class="date-weekday" id="date-weekday">今天</span>
+          <span class="date-full" id="date-full">4月5日</span>
+        </div>
+      </section>
+
+      <!-- 3-Day Forecast Strip -->
+      <section class="forecast-strip" id="forecast-strip">
+        <div class="forecast-card" id="forecast-yesterday" data-day="yesterday">
+          <span class="forecast-label">昨天</span>
+          <span class="forecast-icon" id="icon-yesterday">☀️</span>
+          <span class="forecast-high" id="high-yesterday">26°</span>
+          <span class="forecast-low" id="low-yesterday">18°</span>
+        </div>
+        <div class="forecast-card today" id="forecast-today" data-day="today">
+          <span class="forecast-label">今天 ★</span>
+          <span class="forecast-icon" id="icon-today">🌤️</span>
+          <span class="forecast-high" id="high-today">28°</span>
+          <span class="forecast-low" id="low-today">19°</span>
+        </div>
+        <div class="forecast-card" id="forecast-tomorrow" data-day="tomorrow">
+          <span class="forecast-label">明天</span>
+          <span class="forecast-icon" id="icon-tomorrow">⛅</span>
+          <span class="forecast-high" id="high-tomorrow">25°</span>
+          <span class="forecast-low" id="low-tomorrow">17°</span>
+        </div>
+      </section>
+
+      <!-- Outfit Recommendation -->
+      <section class="outfit-section" id="outfit-section">
+        <h2 class="section-title">
+          <span class="title-leaf">🌿</span> 今日穿搭推荐
+        </h2>
+        <div class="outfit-tags" id="outfit-tags">
+          <span class="outfit-tag warm">☀️ 温暖</span>
+          <span class="outfit-tag rain">💧 微雨</span>
+          <span class="outfit-tag windy">🌬 微风</span>
+        </div>
+        <div class="outfit-grid" id="outfit-grid">
+          <div class="outfit-card">
+            <div class="outfit-icon">👕</div>
+            <div class="outfit-label">上装</div>
+            <div class="outfit-items" id="outfit-top">薄长袖<br>针织衫</div>
+          </div>
+          <div class="outfit-card">
+            <div class="outfit-icon">👖</div>
+            <div class="outfit-label">下装</div>
+            <div class="outfit-items" id="outfit-bottom">牛仔裤</div>
+          </div>
+          <div class="outfit-card">
+            <div class="outfit-icon">👟</div>
+            <div class="outfit-label">鞋履</div>
+            <div class="outfit-items" id="outfit-shoes">运动鞋</div>
+          </div>
+          <div class="outfit-card">
+            <div class="outfit-icon">🎒</div>
+            <div class="outfit-label">配件</div>
+            <div class="outfit-items" id="outfit-accessories">遮阳帽<br>薄外套</div>
+          </div>
+        </div>
+        <p class="outfit-quote" id="outfit-quote">"今天阳光正好，适合浅色系穿搭，元气满满出门吧～"</p>
+        <button class="change-outfit-btn" id="change-outfit-btn">换一套 🔄</button>
+      </section>
+
+      <!-- Tips & Reminders -->
+      <section class="tips-section" id="tips-section">
+        <h2 class="section-title">
+          <span class="title-leaf">🍃</span> 温馨提示
+        </h2>
+        <div class="tips-grid" id="tips-grid">
+          <!-- Tips will be dynamically generated -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- City Selection Bottom Sheet -->
+  <div class="bottom-sheet-overlay" id="city-sheet-overlay">
+    <div class="bottom-sheet" id="city-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3 class="sheet-title">选择城市</h3>
+        <button class="sheet-close" id="city-sheet-close" aria-label="关闭">×</button>
+      </div>
+      <div class="sheet-content">
+        <div class="search-box">
+          <input type="text" class="city-search-input" id="city-search-input" placeholder="搜索城市…" autocomplete="off">
+        </div>
+        <div class="city-list" id="city-list">
+          <div class="city-item selected" data-city="北京" data-id="101010100">
+            <span class="city-item-name">北京</span>
+            <span class="city-item-province">北京</span>
+          </div>
+          <div class="city-item" data-city="上海" data-id="101020100">
+            <span class="city-item-name">上海</span>
+            <span class="city-item-province">上海</span>
+          </div>
+          <div class="city-item" data-city="广州" data-id="101280101">
+            <span class="city-item-name">广州</span>
+            <span class="city-item-province">广东</span>
+          </div>
+          <div class="city-item" data-city="深圳" data-id="101280601">
+            <span class="city-item-name">深圳</span>
+            <span class="city-item-province">广东</span>
+          </div>
+          <div class="city-item" data-city="杭州" data-id="101210101">
+            <span class="city-item-name">杭州</span>
+            <span class="city-item-province">浙江</span>
+          </div>
+          <div class="city-item" data-city="成都" data-id="101270101">
+            <span class="city-item-name">成都</span>
+            <span class="city-item-province">四川</span>
+          </div>
+          <div class="city-item" data-city="重庆" data-id="101040100">
+            <span class="city-item-name">重庆</span>
+            <span class="city-item-province">重庆</span>
+          </div>
+          <div class="city-item" data-city="武汉" data-id="101200101">
+            <span class="city-item-name">武汉</span>
+            <span class="city-item-province">湖北</span>
+          </div>
+          <div class="city-item" data-city="西安" data-id="101110101">
+            <span class="city-item-name">西安</span>
+            <span class="city-item-province">陕西</span>
+          </div>
+          <div class="city-item" data-city="南京" data-id="101190101">
+            <span class="city-item-name">南京</span>
+            <span class="city-item-province">江苏</span>
+          </div>
+          <div class="city-item" data-city="苏州" data-id="101190401">
+            <span class="city-item-name">苏州</span>
+            <span class="city-item-province">江苏</span>
+          </div>
+          <div class="city-item" data-city="天津" data-id="101030100">
+            <span class="city-item-name">天津</span>
+            <span class="city-item-province">天津</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Bottom Sheet -->
+  <div class="bottom-sheet-overlay" id="settings-sheet-overlay">
+    <div class="bottom-sheet" id="settings-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h3 class="sheet-title">设置</h3>
+        <button class="sheet-close" id="settings-sheet-close" aria-label="关闭">×</button>
+      </div>
+      <div class="sheet-content">
+        <div class="settings-list">
+          <div class="settings-item">
+            <span class="settings-item-icon">🌡️</span>
+            <span class="settings-item-label">温度单位</span>
+            <div class="settings-toggle-group">
+              <button class="settings-toggle active" data-unit="c">°C</button>
+              <button class="settings-toggle" data-unit="f">°F</button>
+            </div>
+          </div>
+          <div class="settings-item">
+            <span class="settings-item-icon">🔔</span>
+            <span class="settings-item-label">天气推送</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="notify-toggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-item">
+            <span class="settings-item-icon">📍</span>
+            <span class="settings-item-label">定位服务</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="location-toggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="settings-footer">
+          <p class="settings-version">森系天气 v1.0.0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

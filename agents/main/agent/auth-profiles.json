@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "profiles": {
+    "volcengine:default": {
+      "type": "api_key",
+      "provider": "volcengine",
+      "key": "ff9c881c-6a2e-4f36-8720-62c6a8497197"
+    },
+    "minimax:cn": {
+      "type": "api_key",
+      "provider": "minimax",
+      "key": "sk-cp-OPMqZVLJ6Jjnn_BGx6V3RgtkjesEVgx_RDAZGPEPXceqLNhh7voKZGC4IVLOYBjoNrbccJjzRCquYGfayry07xdLHgh_IU0gz2UWy9yFgmOXiSzaxPVLjsc"
+    }
+  },
+  "lastGood": {
+    "minimax": "minimax:cn"
+  },
+  "usageStats": {
+    "volcengine:default": {
+      "errorCount": 0,
+      "lastUsed": 1775364111265
+    },
+    "minimax:cn": {
+      "errorCount": 0,
+      "lastUsed": 1776055127588
+    }
+  }
+}

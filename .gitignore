@@ -1,0 +1,46 @@
+# Credentials - DO NOT SYNC
+credentials/
+
+# Agent memory databases - large & frequently changing
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Runtime and temp files
+*.bak
+*.clobbered*
+backups/
+delivery-queue/
+media/
+extensions/
+subagents/runs.*
+tasks/runs.*
+
+# Device pairing (machine-specific)
+devices/pending.json
+devices/*.tmp
+
+# OpenClaw logs
+logs/
+
+# Agent session files (frequently changing, machine-specific)
+agents/*/sessions/*.jsonl
+agents/*/sessions/*.reset.*
+
+# Embedded git repos (submodules)
+skills/larksuite-cli/
+
+# Environment files (secrets)
+.env
+.env.*
+
+# Nested git repos
+workspace-qa/
+
+# Backup and temp files
+*.zip
+"openclaw - *".json
+openclaw.json.bak.*
+
+# node_modules in projects (already in .gitignore but being explicit)
+Projects/*/code/*/node_modules/

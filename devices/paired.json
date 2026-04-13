@@ -1,0 +1,129 @@
+{
+  "ba02707785e91b5a08b8067249fd55ff9d0fbdb26db5c534732a369494192047": {
+    "deviceId": "ba02707785e91b5a08b8067249fd55ff9d0fbdb26db5c534732a369494192047",
+    "publicKey": "wp3UebNgoWZvuLwoq9RQEbBNNv5lteqiOPJB6IYft_g",
+    "platform": "win32",
+    "clientId": "gateway-client",
+    "clientMode": "backend",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.read",
+      "operator.admin",
+      "operator.write",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "approvedScopes": [
+      "operator.read",
+      "operator.admin",
+      "operator.write",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "qEhkr1NPSd3QPIb20O1DW08pso5cqlaitdQlp9-YgWo",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing",
+          "operator.read",
+          "operator.write"
+        ],
+        "createdAtMs": 1774933806229,
+        "rotatedAtMs": 1775282597544
+      }
+    },
+    "createdAtMs": 1774933806229,
+    "approvedAtMs": 1775282597544,
+    "displayName": "agent"
+  },
+  "6d65030d035d9ae0f456f4f0d3094ac85a01727a24be6909fd6d41e4c09d64da": {
+    "deviceId": "6d65030d035d9ae0f456f4f0d3094ac85a01727a24be6909fd6d41e4c09d64da",
+    "publicKey": "0JnXRQttObXBPSekZwhJbCI-JgI4PPSPcgrvL80_ATA",
+    "platform": "Win32",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.read",
+      "operator.write",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "approvedScopes": [
+      "operator.admin",
+      "operator.read",
+      "operator.write",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "mSnGlVHMXZ_L9nNVcOX9uYLv3Gipj4Qjwy0Es9p9SDE",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing",
+          "operator.read",
+          "operator.write"
+        ],
+        "createdAtMs": 1774933816460,
+        "lastUsedAtMs": 1775109856733
+      }
+    },
+    "createdAtMs": 1774933816460,
+    "approvedAtMs": 1774933816460
+  },
+  "ca9c92a064590469ed76c6c676a2cb480f4b10e073da26de618e4d4449654049": {
+    "deviceId": "ca9c92a064590469ed76c6c676a2cb480f4b10e073da26de618e4d4449654049",
+    "publicKey": "dN4ck-vF-8HBDnOpxdsB7XQCIJR2Ws8gFpqbdD07yQE",
+    "platform": "Win32",
+    "clientId": "openclaw-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.read",
+      "operator.write",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "approvedScopes": [
+      "operator.admin",
+      "operator.read",
+      "operator.write",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "tokens": {
+      "operator": {
+        "token": "IoMT4KehuRbjUoKMW-ivsUU6vWTXxY3LCPEzJuxLPPg",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing",
+          "operator.read",
+          "operator.write"
+        ],
+        "createdAtMs": 1775043974961,
+        "lastUsedAtMs": 1775568703194
+      }
+    },
+    "createdAtMs": 1775043974961,
+    "approvedAtMs": 1775043974961
+  }
+}

@@ -1,0 +1,674 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.4.1",
+    "lastTouchedAt": "2026-04-08T07:23:06.892Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-04-08T07:19:32.268Z",
+    "lastRunVersion": "2026.4.1",
+    "lastRunCommand": "configure",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "volcengine:default": {
+        "provider": "volcengine",
+        "mode": "api_key"
+      },
+      "minimax:cn": {
+        "provider": "minimax",
+        "mode": "api_key"
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "custom-127-0-0-1-1234": {
+        "baseUrl": "http://127.0.0.1:1234/v1",
+        "apiKey": "123",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5-9b",
+            "name": "qwen3.5-9b (Custom Provider)",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 16000,
+            "maxTokens": 4096,
+            "api": "openai-completions"
+          },
+          {
+            "id": "qwen3.5-35b",
+            "name": "qwen3.5-35b (Custom Provider)",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 16000,
+            "maxTokens": 4096,
+            "api": "openai-completions"
+          }
+        ]
+      },
+      "minimax": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "models": [
+          {
+            "id": "MiniMax-M2.7",
+            "name": "MiniMax M2.7",
+            "reasoning": true,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.3,
+              "output": 1.2,
+              "cacheRead": 0.06,
+              "cacheWrite": 0.375
+            },
+            "contextWindow": 204800,
+            "maxTokens": 131072
+          }
+        ],
+        "api": "anthropic-messages",
+        "authHeader": true
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "minimax/MiniMax-M2.7",
+        "fallbacks": [ 
+          "minimax/MiniMax-M2.7",
+          "volcengine-plan/doubao-seed-code"
+        ]
+      },
+      "models": {
+        "custom-127-0-0-1-1234/qwen3.5-9b": {},
+        "custom-127-0-0-1-1234/qwen3.5-35b": {},
+        "volcengine-plan/ark-code-latest": {},
+        "minimax/MiniMax-M2.7": {
+          "alias": "Minimax"
+        },
+        "volcengine-plan/doubao-seed-code": {}
+      },
+      "workspace": "C:\\Users\\mille\\.openclaw\\workspace",
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      },
+      "compaction": {
+        "mode": "safeguard"
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "subagents": {
+          "allowAgents": [
+            "ui",
+            "planner",
+            "fe",
+            "be",
+            "qa",
+            "op"
+          ]
+        },
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      },
+      {
+        "id": "planner",
+        "name": "内容策划师",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-planner",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\planner\\agent",
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      },
+      {
+        "id": "ui",
+        "name": "UI设计师",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-ui",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\ui\\agent",
+        "identity": {
+          "name": "UI设计师",
+          "theme": "界面视觉交互设计AI助手",
+          "emoji": "🎨"
+        },
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      },
+      {
+        "id": "fe",
+        "name": "FE前端开发",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-fe",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\fe\\agent",
+        "identity": {
+          "name": "FE前端开发",
+          "theme": "前端功能开发与测试AI助手",
+          "emoji": "⚛️"
+        },
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      },
+      {
+        "id": "be",
+        "name": "BE后端工程师",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-be",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\be\\agent",
+        "identity": {
+          "name": "BE后端工程师",
+          "theme": "后端开发工程师 AI",
+          "emoji": "🔧"
+        },
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      },
+      {
+        "id": "op",
+        "name": "OP运营专家",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-op",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\op\\agent",
+        "identity": {
+          "name": "OP运营专家",
+          "theme": "运维&运营 AI助手",
+          "emoji": "🚀"
+        },
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      },
+      {
+        "id": "qa",
+        "name": "qa",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-qa",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\qa\\agent",
+        "identity": {
+          "name": "QA专家",
+          "theme": "代码审核&系统测试 AI助手",
+          "emoji": "🛡️"
+        },
+        "tools": {
+          "alsoAllow": [
+            "feishu_bitable_app",
+            "feishu_bitable_app_table",
+            "feishu_bitable_app_table_field",
+            "feishu_bitable_app_table_record",
+            "feishu_bitable_app_table_view",
+            "feishu_calendar_calendar",
+            "feishu_calendar_event",
+            "feishu_calendar_event_attendee",
+            "feishu_calendar_freebusy",
+            "feishu_chat",
+            "feishu_chat_members",
+            "feishu_create_doc",
+            "feishu_doc_comments",
+            "feishu_doc_media",
+            "feishu_drive_file",
+            "feishu_fetch_doc",
+            "feishu_get_user",
+            "feishu_im_bot_image",
+            "feishu_im_user_fetch_resource",
+            "feishu_im_user_get_messages",
+            "feishu_im_user_get_thread_messages",
+            "feishu_im_user_message",
+            "feishu_im_user_search_messages",
+            "feishu_oauth",
+            "feishu_oauth_batch_auth",
+            "feishu_search_doc_wiki",
+            "feishu_search_user",
+            "feishu_sheet",
+            "feishu_task_comment",
+            "feishu_task_subtask",
+            "feishu_task_task",
+            "feishu_task_tasklist",
+            "feishu_update_doc",
+            "feishu_wiki_space",
+            "feishu_wiki_space_node"
+          ]
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "duckduckgo"
+      },
+      "fetch": {
+        "enabled": true
+      }
+    },
+    "exec": {
+      "security": "full",
+      "ask": "off"
+    },
+    "agentToAgent": {
+      "enabled": false,
+      "allow": [
+        "main",
+        "ui",
+        "fe",
+        "be",
+        "qa",
+        "op"
+      ]
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "feishu",
+        "accountId": "default"
+      }
+    },
+    {
+      "agentId": "planner",
+      "match": {
+        "channel": "feishu",
+        "accountId": "planner"
+      }
+    },
+    {
+      "agentId": "ui",
+      "match": {
+        "channel": "feishu",
+        "accountId": "ui"
+      }
+    },
+    {
+      "agentId": "fe",
+      "match": {
+        "channel": "feishu",
+        "accountId": "fe"
+      }
+    },
+    {
+      "agentId": "be",
+      "match": {
+        "channel": "feishu",
+        "accountId": "be"
+      }
+    },
+    {
+      "agentId": "qa",
+      "match": {
+        "channel": "feishu",
+        "accountId": "qa"
+      }
+    },
+    {
+      "agentId": "op",
+      "match": {
+        "channel": "feishu",
+        "accountId": "op"
+      }
+    }
+  ],
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowInsecureAuth": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "4ff5279d5faa3e8df1cf451e29ddaf9a7814fafc734921b5"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    },
+    "entries": {
+      "weather": {
+        "enabled": true
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "duckduckgo": {
+        "enabled": true,
+        "config": {}
+      },
+      "feishu": {
+        "enabled": false,
+        "config": {}
+      },
+      "minimax": {
+        "enabled": true
+      },
+      "openclaw-lark": {
+        "enabled": true
+      }
+    },
+    "allow": [
+      "minimax",
+      "openclaw-lark"
+    ],
+    "installs": {
+      "openclaw-lark": {
+        "source": "archive",
+        "sourcePath": "C:\\Users\\mille\\AppData\\Local\\Temp\\openclaw-lark-eFqXjj\\larksuite-openclaw-lark-2026.4.1.tgz",
+        "installPath": "C:\\Users\\mille\\.openclaw\\extensions\\openclaw-lark",
+        "version": "2026.4.1",
+        "installedAt": "2026-04-05T05:18:04.428Z"
+      }
+    }
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "channels": {
+    "feishu": {
+      "enabled": true,
+      "domain": "feishu",
+      "groupPolicy": "open",
+      "threadSession": true,
+      "replyMode": "auto",
+      "accounts": {
+        "default": {
+          "appId": "cli_a94e4f339a63dcb6",
+          "appSecret": "oRndTUQekC8QHUVYnw60wbYDwjXRPR71"
+        },
+        "planner": {
+          "appId": "cli_a9458c6688b81bce",
+          "appSecret": "Ib4ZSjAsf5FcjV3qez11JdE3oVOMHDkj"
+        },
+        "ui": {
+          "appId": "cli_a94586292c39dbb4",
+          "appSecret": "HpfD6Hl6SCRc0cy4cROGxcorBN7pvQm4"
+        },
+        "fe": {
+          "appId": "cli_a9458066bcf81bd3",
+          "appSecret": "jqSN3sOGSIBThfFJmfZeCdU4WYY0VmBo"
+        },
+        "be": {
+          "appId": "cli_a94581ac80badbd3",
+          "appSecret": "B0aIAddLM4KF6HiPQmB0lgSIFYdV7gIM"
+        },
+        "qa": {
+          "appId": "cli_a930fa544db9dcc5",
+          "appSecret": "kolElc57fTdIYTBYoWohecQzJNBwStjy"
+        },
+        "op": {
+          "appId": "cli_a945826919b99bce",
+          "appSecret": "kbcxVFrvTA4n2JAVW5CiQfScTj2XNKWU"
+        }
+      },
+      "appId": "cli_a94e4f339a63dcb6",
+      "appSecret": "oRndTUQekC8QHUVYnw60wbYDwjXRPR71",
+      "dmPolicy": "allowlist",
+      "allowFrom": [
+        "ou_bcbcc68a7beb835841ae77a2065b3f8a",
+        "ou_48e3c0d7da96f88f9cb07f6c2f4080b4"
+      ]
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.4.1",
+    "lastTouchedAt": "2026-04-02T11:53:39.036Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-04-02T11:53:38.889Z",
+    "lastRunVersion": "2026.4.1",
+    "lastRunCommand": "configure",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "volcengine:default": {
+        "provider": "volcengine",
+        "mode": "api_key"
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "custom-127-0-0-1-1234": {
+        "baseUrl": "http://127.0.0.1:1234/v1",
+        "apiKey": "123",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "qwen3.5-9b",
+            "name": "qwen3.5-9b (Custom Provider)",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 16000,
+            "maxTokens": 4096
+          },
+          {
+            "id": "qwen3.5-35b",
+            "name": "qwen3.5-35b (Custom Provider)",
+            "contextWindow": 16000,
+            "maxTokens": 4096,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "reasoning": false
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "custom-127-0-0-1-1234/qwen3.5-35b",
+        "fallbacks": [
+          "custom-127-0-0-1-1234/qwen3.5-9b"
+        ]
+      },
+      "models": {
+        "custom-127-0-0-1-1234/qwen3.5-9b": {},        
+        "custom-127-0-0-1-1234/qwen3.5-35b": {}, 
+        "volcengine-plan/ark-code-latest": {}
+      },
+      "workspace": "C:\\Users\\mille\\.openclaw\\workspace"
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "pm",
+        "name": "pm",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-pm",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\pm\\agent"
+      },
+      {
+        "id": "ui",
+        "name": "UI设计师",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-ui",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\ui\\agent",
+        "identity": {
+          "name": "UI设计师",
+          "theme": "界面视觉交互设计AI助手",
+          "emoji": "🎨"
+        }
+      },
+      {
+        "id": "fe",
+        "name": "FE前端开发",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-fe",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\fe\\agent",
+        "identity": {
+          "name": "FE前端开发",
+          "theme": "前端功能开发与测试AI助手",
+          "emoji": "⚛️"
+        }
+      },
+      {
+        "id": "be",
+        "name": "BE后端工程师",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-be",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\be\\agent",
+        "identity": {
+          "name": "BE后端工程师",
+          "theme": "后端开发工程师 AI",
+          "emoji": "🔧"
+        }
+      },
+      {
+        "id": "op",
+        "name": "OP运营专家",
+        "workspace": "C:\\Users\\mille\\.openclaw\\workspace-op",
+        "agentDir": "C:\\Users\\mille\\.openclaw\\agents\\op\\agent",
+        "identity": {
+          "name": "OP运营专家",
+          "theme": "运维&运营 AI助手",
+          "emoji": "🚀"
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "duckduckgo"
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "controlUi": {
+      "allowInsecureAuth": true
+    },
+    "auth": {
+      "mode": "token",
+      "token": "4ff5279d5faa3e8df1cf451e29ddaf9a7814fafc734921b5"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    },
+    "entries": {
+      "weather": {
+        "enabled": true
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "duckduckgo": {
+        "enabled": true,
+        "config": {}
+      }
+    }
+  }
+}

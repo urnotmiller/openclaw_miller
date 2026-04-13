@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "skills": {
+    "self-improving-agent": {
+      "version": "3.0.10",
+      "installedAt": 1774940283107
+    },
+    "skill-vetter": {
+      "version": "1.0.0",
+      "installedAt": 1775114971593
+    },
+    "openclaw-tavily-search": {
+      "version": "0.1.0",
+      "installedAt": 1775118326114
+    },
+    "openclaw-backup": {
+      "version": "1.0.0",
+      "installedAt": 1775284681543
+    }
+  }
+}
