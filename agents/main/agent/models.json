@@ -8,6 +8,7 @@
         {
           "id": "qwen3.5-9b",
           "name": "qwen3.5-9b (Custom Provider)",
+          "api": "openai-completions",
           "reasoning": false,
           "input": [
             "text"
@@ -19,12 +20,12 @@
             "cacheWrite": 0
           },
           "contextWindow": 16000,
-          "maxTokens": 4096,
-          "api": "openai-completions"
+          "maxTokens": 4096
         },
         {
           "id": "qwen3.5-35b",
           "name": "qwen3.5-35b (Custom Provider)",
+          "api": "openai-completions",
           "reasoning": false,
           "input": [
             "text"
@@ -36,8 +37,7 @@
             "cacheWrite": 0
           },
           "contextWindow": 16000,
-          "maxTokens": 4096,
-          "api": "openai-completions"
+          "maxTokens": 4096
         }
       ]
     },
@@ -255,7 +255,8 @@
             "cacheWrite": 0.375
           },
           "contextWindow": 204800,
-          "maxTokens": 131072
+          "maxTokens": 131072,
+          "api": "anthropic-messages"
         }
       ],
       "apiKey": "sk-cp-OPMqZVLJ6Jjnn_BGx6V3RgtkjesEVgx_RDAZGPEPXceqLNhh7voKZGC4IVLOYBjoNrbccJjzRCquYGfayry07xdLHgh_IU0gz2UWy9yFgmOXiSzaxPVLjsc"

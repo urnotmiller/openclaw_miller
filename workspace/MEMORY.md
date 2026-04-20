@@ -38,7 +38,7 @@
 | 小B | 后端开发 | `workspace-be` |
 | 小Q | 测试/审核 | `workspace-qa` |
 | 小O | 运营 | `workspace-op` |
-| 小文 | 内容策划（planner） | `workspace-pm` |
+| 小文 | 内容策划（planner） | `workspace-planner` |
 
 ---
 
@@ -51,12 +51,6 @@
 - `.learnings/LEARNINGS.md` — 教训、修正、洞察
 - `.learnings/ERRORS.md` — 错误/失败记录
 - `.learnings/FEATURE_REQUESTS.md` — 做不到的需求
-
-### Agent 调度
-- **FE/BE/QA**：用 `sessions_spawn` 派发，完成后自动返回
-- **UI/OP**：用 `sessions_spawn mode=session` + `sessions_send`，支持 boss 多轮审核
-- **FE 前置**：UI设计稿 + API接口文档 **双确认后**才能启动
-- **QA 二次review**：FE/BE 修复完成后，必须再次调度 QA 确认，PM 不自作判断
 
 ### 项目结构
 - 路径：`Projects/{项目名-版本}`
@@ -89,6 +83,9 @@
 | 2026-04-13 | pm agent 转型为 planner（内容策划师），职责：行业调研+文案创作，双路线流程（路线A服务文案/路线B独立交付） |
 | 2026-04-13 | 小文产出 Main PM 二次核查规则：路线A核查重点数据/路线B核查所有数据结论 |
 | 2026-04-13 | 小文交付物统一存放 Projects/{项目名}/docs/，命名 {类型}-{版本}-{日期}.md |
+| 2026-04-15 | 飞书云盘目录结构体系建立：01项目文档/02案例库/03运营素材/04知识沉淀/05归档 |
+| 2026-04-15 | .openclaw 目录同步至 GitHub（urnotmiller/openclaw_miller），排除 credentials/、*.sqlite、backups/、.env |
+| 2026-04-16 | PM协作规范升级：Karpathy协作四原则（Think/Simplicity/Surgical/Goal-Driven），SOUL.md留原则、AGENTS.md留操作手册 |
 
 ---
 

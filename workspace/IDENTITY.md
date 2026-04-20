@@ -14,6 +14,7 @@
 
 | Agent | 角色 | 工作目录 |
 |-------|------|---------|
+| 小文 | 内容策划 | `workspace-planner` |
 | 小U（UI） | 设计 | `workspace-ui` |
 | 小F（FE） | 前端 | `workspace-fe` |
 | 小B（BE） | 后端 | `workspace-be` |

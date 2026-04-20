@@ -18,11 +18,12 @@
   "usageStats": {
     "volcengine:default": {
       "errorCount": 0,
-      "lastUsed": 1775364111265
+      "lastUsed": 1776327219987
     },
     "minimax:cn": {
       "errorCount": 0,
-      "lastUsed": 1776081128971
+      "lastUsed": 1776676968096,
+      "lastFailureAt": 1776327174918
     }
   }
 }
